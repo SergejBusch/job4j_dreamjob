@@ -24,24 +24,14 @@
 <body>
     <div class="container">
         <div class="row">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Ads</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Created</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (Post post : Store.instOf().findAll()) { %>
-                        <tr>
-                            <td><%=post.getName()%></td>
-                            <td><%=post.getDescription()%></td>
-                            <td><%=post.getCreated()%></td>
-                        </tr>
-                    <% } %>
-                </tbody>
-            </table>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/posts.jsp">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidates.jsp">Candidates</a>
+                </li>
+            </ul>
         </div>
     </div>
 </body>
