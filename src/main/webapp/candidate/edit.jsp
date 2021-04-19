@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.dream.store.Store" %>
 <%@ page import="ru.job4j.dream.model.Post" %>
+<%@ page isELIgnored="false" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,15 +24,22 @@
 <body>
 <div class="container pt-3">
     <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>">Home</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
                 New Candidate.
             </div>
             <div class="card-body">
-                <form>
+                <form action="<%=request.getContextPath()%>/candidate/save" method="post">
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="name">
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
