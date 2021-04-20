@@ -17,7 +17,6 @@
     <url-pattern>/posts.do</url-pattern>
   </servlet-mapping>
 
-
   <servlet>
     <servlet-name>CandidateServlet</servlet-name>
     <servlet-class>ru.job4j.dream.servlet.CandidateServlet</servlet-class>
