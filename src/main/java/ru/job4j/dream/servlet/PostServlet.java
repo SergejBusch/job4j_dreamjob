@@ -1,5 +1,6 @@
 package ru.job4j.dream.servlet;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,6 +10,11 @@ import ru.job4j.dream.store.Store;
 import java.io.IOException;
 
 public class PostServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("posts", Store.instOf().findAllPosts());
+        req.getRequestDispatcher("posts.jsp").forward(req, resp);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -20,6 +26,6 @@ public class PostServlet extends HttpServlet {
                         "description"
                 )
         );
-        resp.sendRedirect(req.getContextPath() + "/posts.jsp");
+        resp.sendRedirect(req.getContextPath() + "/posts.do");
     }
 }
