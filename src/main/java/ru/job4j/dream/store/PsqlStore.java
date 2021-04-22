@@ -93,6 +93,15 @@ public class PsqlStore implements Store {
         }
     }
 
+    @Override
+    public void save(Candidate candidate) {
+        if (candidate.getId() == 0) {
+            create(candidate);
+        } else {
+            update(candidate);
+        }
+    }
+
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("INSERT INTO dreamjob.public.post(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
@@ -110,6 +119,25 @@ public class PsqlStore implements Store {
         return post;
     }
 
+    private Candidate create(Candidate candidate) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO dreamjob.public.candidate(name) " +
+                     "VALUES (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, candidate.getName());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    candidate.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return candidate;
+    }
+
     private void update(Post post) {
         try (var cn = pool.getConnection();
              var ps =  cn.prepareStatement(
@@ -120,6 +148,22 @@ public class PsqlStore implements Store {
         ) {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void update(Candidate candidate) {
+        try (var cn = pool.getConnection();
+             var ps =  cn.prepareStatement(
+                     "UPDATE dreamjob.public.candidate " +
+                     "SET name = ? " +
+                     "WHERE id = ?"
+             )
+        ) {
+            ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,5 +190,26 @@ public class PsqlStore implements Store {
             e.printStackTrace();
         }
     return post;
+    }
+
+    public Candidate findCandidateById(int id) {
+        Candidate candidate = null;
+        try (var cn = pool.getConnection();
+             var ps =  cn.prepareStatement(
+                     "SELECT * FROM dreamjob.public.candidate " +
+                             "WHERE id = ?"
+             )
+        ) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery();) {
+                if (rs.next()) {
+                    var name = rs.getString("name");
+                    candidate = new Candidate(id, name);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    return candidate;
     }
 }

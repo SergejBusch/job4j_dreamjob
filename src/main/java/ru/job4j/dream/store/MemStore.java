@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MemStore {
+public class MemStore implements Store {
 
     private static final MemStore INST = new MemStore();
 
@@ -46,7 +46,7 @@ public class MemStore {
         candidates.put(candidate.getId(), candidate);
     }
 
-    public Post findPostById(int id) {
+    public Post findById(int id) {
         return posts.get(id);
     }
 
