@@ -27,7 +27,22 @@
                     <a class="nav-link" href = "<c:url value = "/"/>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href = "<c:url value = "/candidates.do"/>">Candidates</a>
+                    <a class="nav-link" href = "<c:url value = "/"/>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Add new job</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Add new candidate</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> | Выйти</a></a>
                 </li>
             </ul>
     </div>
