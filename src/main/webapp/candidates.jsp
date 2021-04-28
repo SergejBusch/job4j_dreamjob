@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>--%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,7 +22,7 @@
     <title>Dream job</title>
 </head>
 <body>
-<div class="container pt-3">
+<div class="container w-50 pt-3">
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
@@ -38,16 +40,63 @@
                     <thead>
                     <tr>
                         <th scope="col">Titles</th>
+                        <th scope="col">Photos</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${candidates}" var="can">
                     <tr>
-                        <td>
+                        <td class="w-50">
                             <a href='<c:url value="candidate/edit.jsp?id=${can.id}"/>'>
                                 <i class="fa fa-edit mr-3"></i>
                             </a>
                             <c:out value="${can.name}"/>
+                        </td>
+
+                        <td class="w-50 h-50">
+
+                            <jsp:useBean id="list" class="java.util.ArrayList" scope="page"/>
+
+                            <c:forEach items="${images}" var="image">
+                                <c:if test = "${fn:startsWith(image, can.id)}">
+                                    <c:set var="noUse" value="${list.add(image)}"/>
+                                </c:if>
+
+                            </c:forEach>
+
+                            <c:if test = "${list.size() > 0}">
+                                <div id="carousel${can.id}" class="carousel slide"  style=" width:200px; height: 200px !important;">
+                                    <div class="carousel-inner" style=" width:200px; height: 200px !important;">
+                                        <c:set var="first" value="true" />
+                                        <c:forEach items="${images}" var="image" varStatus="i">
+                                            <c:if test = "${fn:startsWith(image, can.id)}">
+                                                <div class="carousel-item ${first ? 'active' : ''} ">
+                                                    <c:set var="first" value="false"/>
+                                                    <img class="d-block" src="
+                                                        <c:url value='/download'>
+                                                             <c:param name = "name" value = '${image}'/>
+                                                             <c:param name = "id" value = '${can.id}'/>
+                                                        </c:url>"
+                                                        width="200px" height="200px"/>
+                                                    <div class="carousel-caption d-none d-md-block">
+                                                        <a href="<c:url value='/delete?name=${image}'/>" class="badge badge-pill badge-danger">Delete photo</a>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carousel${can.id}" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carousel${can.id}" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </c:if>
+                            ${list.clear()}
+                            <a href="<c:url value="photoupload.jsp?id=${can.id}"/>" class="badge badge-pill badge-success">Add photo</a>
                         </td>
                     </tr>
                     </c:forEach>

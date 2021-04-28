@@ -18,7 +18,7 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Dream job</title>
 </head>
 <body>
@@ -54,6 +54,13 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
+                <% if (id != null) { %>
+                <form id="form-id" action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>&delete=<%=true%>" method="post">
+                    <a onclick="document.getElementById('form-id').submit();" href="#">
+                        <i class="fa fa-user-times mr-3" style="color: red;"></i>
+                    </a>
+                </form>
+                <% } %>
             </div>
         </div>
     </div>

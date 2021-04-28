@@ -212,4 +212,20 @@ public class PsqlStore implements Store {
         }
     return candidate;
     }
+
+    @Override
+    public void removeCandidate(int id) {
+        Candidate candidate = null;
+        try (var cn = pool.getConnection();
+             var ps =  cn.prepareStatement(
+                     "DELETE  FROM dreamjob.public.candidate " +
+                             "WHERE id = ?"
+             )
+        ) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ru.job4j.dream.model.Post;
-import ru.job4j.dream.store.MemStore;
 import ru.job4j.dream.store.PsqlStore;
 
 import java.io.IOException;
