@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!doctype html>
 <html lang="en">
@@ -16,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Работа мечты</title>
+    <title>Dream job</title>
 </head>
 <body>
 <div class="container pt-3">
@@ -29,14 +30,20 @@
             <div class="card-body">
                 <form action="<%=request.getContextPath()%>/auth.do" method="post">
                     <div class="form-group">
-                        <label>Почта</label>
+                        <label>Mail</label>
                         <input type="text" class="form-control" name="email">
                     </div>
                     <div class="form-group">
-                        <label>Пароль</label>
+                        <label>Pass</label>
                         <input type="text" class="form-control" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
+
+                    <c:if test="${not empty requestScope.error}">
+                        <div class="alert alert-danger m-3" role="alert">
+                            <strong>Oh snap!</strong> ${requestScope.error}
+                        </div>
+                    </c:if>
                 </form>
             </div>
         </div>
