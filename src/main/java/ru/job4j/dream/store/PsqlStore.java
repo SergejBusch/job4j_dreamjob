@@ -3,6 +3,7 @@ package ru.job4j.dream.store;
 import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -180,7 +181,7 @@ public class PsqlStore implements Store {
              )
         ) {
             ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery();) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     var name = rs.getString("name");
                     post = new Post(id, name);
@@ -201,7 +202,7 @@ public class PsqlStore implements Store {
              )
         ) {
             ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery();) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     var name = rs.getString("name");
                     candidate = new Candidate(id, name);
@@ -210,7 +211,7 @@ public class PsqlStore implements Store {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    return candidate;
+        return candidate;
     }
 
     @Override
@@ -219,6 +220,97 @@ public class PsqlStore implements Store {
         try (var cn = pool.getConnection();
              var ps =  cn.prepareStatement(
                      "DELETE  FROM dreamjob.public.candidate " +
+                             "WHERE id = ?"
+             )
+        ) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void save(User user) {
+        if (user.getId() == 0) {
+            create(user);
+        } else {
+            update(user);
+        }
+    }
+
+    private User create(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO dreamjob.public.users(email, name, password) " +
+                             "VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    private void update(User user) {
+        try (var cn = pool.getConnection();
+             var ps =  cn.prepareStatement(
+                     "UPDATE dreamjob.public.users " +
+                             "SET name = ?," +
+                             "email = ?, " +
+                             "password = ? " +
+                             "WHERE id = ?"
+             )
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setInt(4, user.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        User user = null;
+        try (var cn = pool.getConnection();
+             var ps =  cn.prepareStatement(
+                     "SELECT * FROM dreamjob.public.users " +
+                             "WHERE email = ?"
+             )
+        ) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setEmail(email);
+                    user.setName(rs.getString("name"));
+                    user.setPassword(rs.getString("password"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public void removeUser(int id) {
+        User user = null;
+        try (var cn = pool.getConnection();
+             var ps =  cn.prepareStatement(
+                     "DELETE  FROM dreamjob.public.users " +
                              "WHERE id = ?"
              )
         ) {
