@@ -25,24 +25,28 @@
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href = "<c:url value = "/reg.jsp"/>">Registration</a>
+                <a class="nav-link" href = "<c:url value = "/login.jsp"/>">Login</a>
             </li>
         </ul>
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Authorization
+                Registration
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/auth.do" method="post">
+                <form action="<c:url value='/reg.do'/>" method="post">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
                     <div class="form-group">
                         <label>Mail</label>
-                        <input type="text" class="form-control" name="email">
+                        <input type="text" class="form-control" name="email" required>
                     </div>
                     <div class="form-group">
                         <label>Pass</label>
-                        <input type="text" class="form-control" name="password">
+                        <input type="text" class="form-control" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
 
                     <c:if test="${not empty requestScope.error}">
                         <div class="alert alert-danger m-3" role="alert">
