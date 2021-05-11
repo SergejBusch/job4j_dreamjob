@@ -241,13 +241,13 @@ public class PsqlStore implements Store {
 
     private User create(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO dreamjob.public.users(email, name, password) " +
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO dreamjob.public.users(email, password, name) " +
                              "VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getEmail());
-            ps.setString(2, user.getName());
-            ps.setString(3, user.getPassword());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getName());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {

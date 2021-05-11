@@ -20,7 +20,7 @@ public class RegServlet extends HttpServlet {
             user = new User();
             user.setName(req.getParameter("name"));
             user.setEmail(req.getParameter("email"));
-            user.setPassword(req.getParameter("pass"));
+            user.setPassword(req.getParameter("password"));
             store.save(user);
         }
         if (user != null) {
