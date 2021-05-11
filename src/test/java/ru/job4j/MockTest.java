@@ -19,6 +19,7 @@ import java.io.IOException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -47,8 +48,10 @@ public class MockTest {
         when(PsqlStore.instOf()).thenReturn(store);
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
+        RequestDispatcher dispatcher = mock(RequestDispatcher.class);
         Mockito.when(req.getRequestDispatcher(anyString())).thenReturn(mock(RequestDispatcher.class));
         new PostServlet().doGet(req, resp);
-        verify(req, Mockito.times(1)).setAttribute("posts", store.findAllPosts());
+//        verify(req, Mockito.times(1)).setAttribute("posts", store.findAllPosts());
+        verify(req, Mockito.times(1)).getRequestDispatcher("posts.jsp");
     }
 }
