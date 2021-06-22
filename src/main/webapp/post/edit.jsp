@@ -22,59 +22,61 @@
     <title>Dream job</title>
 </head>
 <body>
-<%
-    String id = request.getParameter("id");
-    Post post = new Post(0, "");
-    if (id != null) {
-        post = PsqlStore.instOf().findById(Integer.valueOf(id));
-    }
-%>
-<div class="container pt-3">
-    <div class="row">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href = "<c:url value = "/"/>">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Add new job</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Add new candidate</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> | Выйти</a></a>
-            </li>
-        </ul>
-    </div>
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header">
-                <% if (id == null) { %>
-                New Job.
-                <% } else { %>
-                Edit Job.
-                <% } %>
-            </div>
-            <div class="card-body">
-                <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+    <%
+        String id = request.getParameter("id");
+        Post post = new Post(0, "");
+        if (id != null) {
+            post = PsqlStore.instOf().findById(Integer.valueOf(id));
+        }
+    %>
+    <div class="container pt-3">
+        <div class="row">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href = "<c:url value = "/"/>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Add new job</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Add new candidate</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> | Выйти</a></a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="card" style="width: 100%">
+                <div class="card-header">
+                    <% if (id == null) { %>
+                    New Job.
+                    <% } else { %>
+                    Edit Job.
+                    <% } %>
+                </div>
+                <div class="card-body">
+                    <form class="main-form" action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <p class="message"></p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <script src="../js/validation.js"></script>
 </body>
 </html>

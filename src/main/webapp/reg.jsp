@@ -20,43 +20,45 @@
     <title>Dream job</title>
 </head>
 <body>
-<div class="container pt-3">
+    <div class="container pt-3">
 
-    <div class="row">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href = "<c:url value = "/login.jsp"/>">Login</a>
-            </li>
-        </ul>
-        <div class="card" style="width: 100%">
-            <div class="card-header">
-                Registration
-            </div>
-            <div class="card-body">
-                <form action="<c:url value='/reg.do'/>" method="post">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Mail</label>
-                        <input type="text" class="form-control" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Pass</label>
-                        <input type="text" class="form-control" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-
-                    <c:if test="${not empty requestScope.error}">
-                        <div class="alert alert-danger m-3" role="alert">
-                            <strong>Oh snap!</strong> ${requestScope.error}
+        <div class="row">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href = "<c:url value = "/login.jsp"/>">Login</a>
+                </li>
+            </ul>
+            <div class="card" style="width: 100%">
+                <div class="card-header">
+                    Registration
+                </div>
+                <div class="card-body">
+                    <form class="main-form" action="<c:url value='/reg.do'/>" method="post">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name">
                         </div>
-                    </c:if>
-                </form>
+                        <div class="form-group">
+                            <label>Mail</label>
+                            <input type="text" class="form-control" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label>Pass</label>
+                            <input type="text" class="form-control" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <p class="message"></p>
+
+                        <c:if test="${not empty requestScope.error}">
+                            <div class="alert alert-danger m-3" role="alert">
+                                <strong>Oh snap!</strong> ${requestScope.error}
+                            </div>
+                        </c:if>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <script src="js/validation.js"></script>
 </body>
 </html>

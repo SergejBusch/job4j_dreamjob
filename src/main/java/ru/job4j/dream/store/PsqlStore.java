@@ -2,6 +2,7 @@ package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
@@ -228,6 +229,23 @@ public class PsqlStore implements Store {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Collection<City> getAllCities() {
+        List<City> cities = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM dreamjob.public.cities")
+        ) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cities.add(new City(rs.getInt("id"), rs.getString("city")));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cities;
     }
 
     @Override
