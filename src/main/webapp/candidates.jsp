@@ -22,107 +22,112 @@
     <title>Dream job</title>
 </head>
 <body>
-<div class="container w-50 pt-3">
-    <div class="row">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href = "<c:url value = "/"/>">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href = "<c:url value = "/"/>">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Add new job</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Add new candidate</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> | Выйти</a></a>
-            </li>
-        </ul>
-    </div>
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header">
-                Candidates
-            </div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Titles</th>
-                        <th scope="col">Photos</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${candidates}" var="can">
-                    <tr>
-                        <td class="w-50">
-                            <a href='<c:url value="candidate/edit.jsp?id=${can.id}"/>'>
-                                <i class="fa fa-edit mr-3"></i>
-                            </a>
-                            <c:out value="${can.name}"/>
-                        </td>
+    <div class="container w-50 pt-3">
+        <div class="row">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href = "<c:url value = "/"/>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href = "<c:url value = "/"/>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Add new job</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Add new candidate</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> | Выйти</a></a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="card" style="width: 100%">
+                <div class="card-header">
+                    Candidates
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Titles</th>
+                            <th scope="col">Photos</th>
+                            <th scope="col">City</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${candidates}" var="can">
+                        <tr>
+                            <td class="w-50">
+                                <a href='<c:url value="candidate/edit.jsp?id=${can.id}"/>'>
+                                    <i class="fa fa-edit mr-3"></i>
+                                </a>
+                                <c:out value="${can.name}"/>
+                            </td>
 
-                        <td class="w-50 h-50">
+                            <td class="w-50 h-50">
 
-                            <jsp:useBean id="list" class="java.util.ArrayList" scope="page"/>
+                                <jsp:useBean id="list" class="java.util.ArrayList" scope="page"/>
 
-                            <c:forEach items="${images}" var="image">
-                                <c:if test = "${fn:startsWith(image, can.id)}">
-                                    <c:set var="noUse" value="${list.add(image)}"/>
-                                </c:if>
+                                <c:forEach items="${images}" var="image">
+                                    <c:if test = "${fn:startsWith(image, can.id)}">
+                                        <c:set var="noUse" value="${list.add(image)}"/>
+                                    </c:if>
 
-                            </c:forEach>
+                                </c:forEach>
 
-                            <c:if test = "${list.size() > 0}">
-                                <div id="carousel${can.id}" class="carousel slide"  style=" width:200px; height: 200px !important;">
-                                    <div class="carousel-inner" style=" width:200px; height: 200px !important;">
-                                        <c:set var="first" value="true" />
-                                        <c:forEach items="${images}" var="image" varStatus="i">
-                                            <c:if test = "${fn:startsWith(image, can.id)}">
-                                                <div class="carousel-item ${first ? 'active' : ''} ">
-                                                    <c:set var="first" value="false"/>
-                                                    <img class="d-block" src="
-                                                        <c:url value='/download'>
-                                                             <c:param name = "name" value = '${image}'/>
-                                                             <c:param name = "id" value = '${can.id}'/>
-                                                        </c:url>"
-                                                        width="200px" height="200px"/>
-                                                    <div class="carousel-caption d-none d-md-block">
-                                                        <a href="<c:url value='/delete?name=${image}'/>" class="badge badge-pill badge-danger">Delete photo</a>
+                                <c:if test = "${list.size() > 0}">
+                                    <div id="carousel${can.id}" class="carousel slide"  style=" width:200px; height: 200px !important;">
+                                        <div class="carousel-inner" style=" width:200px; height: 200px !important;">
+                                            <c:set var="first" value="true" />
+                                            <c:forEach items="${images}" var="image" varStatus="i">
+                                                <c:if test = "${fn:startsWith(image, can.id)}">
+                                                    <div class="carousel-item ${first ? 'active' : ''} ">
+                                                        <c:set var="first" value="false"/>
+                                                        <img class="d-block" src="
+                                                            <c:url value='/download'>
+                                                                 <c:param name = "name" value = '${image}'/>
+                                                                 <c:param name = "id" value = '${can.id}'/>
+                                                            </c:url>"
+                                                            width="200px" height="200px"/>
+                                                        <div class="carousel-caption d-none d-md-block">
+                                                            <a href="<c:url value='/delete?name=${image}'/>" class="badge badge-pill badge-danger">Delete photo</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </c:if>
-                                        </c:forEach>
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carousel${can.id}" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carousel${can.id}" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
                                     </div>
-                                    <a class="carousel-control-prev" href="#carousel${can.id}" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carousel${can.id}" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </div>
-                            </c:if>
-                            ${list.clear()}
-                            <a href="<c:url value="photoupload.jsp?id=${can.id}"/>" class="badge badge-pill badge-success">Add photo</a>
-                        </td>
-                    </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                                </c:if>
+                                ${list.clear()}
+                                <a href="<c:url value="photoupload.jsp?id=${can.id}"/>" class="badge badge-pill badge-success">Add photo</a>
+                            </td>
+                            <td>
+                                <div class="city" data-city_id="<c:out value="${can.cityId}"/>"></div>
+                            </td>
+                        </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <script src="js/showCity.js"></script>
 </body>
 </html>

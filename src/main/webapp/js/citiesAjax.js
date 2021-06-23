@@ -8,12 +8,15 @@ async function loadCities() {
 
 function addToSelect(dataArray) {
     dataArray.forEach((c) => {
-        console.log(c);
         let opt = document.createElement('option');
         opt.value = c.id;
         opt.innerHTML = c.city;
         select.appendChild(opt);
     });
+
+    if (select.dataset.city_id !== '0') {
+        select.value = select.dataset.city_id;
+    }
 }
 
 loadCities();

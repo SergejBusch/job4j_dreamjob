@@ -25,7 +25,7 @@
 <body>
     <%
         String id = request.getParameter("id");
-        Candidate candidate = new Candidate(0, "");
+        Candidate candidate = new Candidate(0, "", 1);
         if (id != null) {
             candidate = PsqlStore.instOf().findCandidateById(Integer.parseInt(id));
         }
@@ -72,7 +72,7 @@
                             <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
                             <div class="choose mt-3">
                                 <label for="cities">City: </label>
-                                <select id="cities" name="cities"></select>
+                                <select id="cities" name="city_id" data-city_id="<%=candidate.getCityId()%>"></select>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>

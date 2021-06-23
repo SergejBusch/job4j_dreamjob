@@ -24,7 +24,7 @@ public class CandidateServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (Boolean.parseBoolean(req.getParameter("delete"))) {
 
             delete(req);
@@ -42,7 +42,8 @@ public class CandidateServlet extends HttpServlet {
         PsqlStore.instOf().save(
                 new Candidate(
                         Integer.parseInt(req.getParameter("id")),
-                        req.getParameter("name")
+                        req.getParameter("name"),
+                        Integer.parseInt(req.getParameter("city_id"))
                 )
         );
     }

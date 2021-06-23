@@ -77,7 +77,8 @@ public class PsqlStore implements Store {
         ) {
            try (var rs = ps.executeQuery()) {
                while (rs.next()) {
-                   candidates.add(new Candidate(rs.getInt("id"), rs.getString("name")));
+                   candidates.add(new Candidate(rs.getInt("id"),
+                           rs.getString("name"), rs.getInt("city_id")));
                }
            }
         } catch (Exception e) {
@@ -123,11 +124,12 @@ public class PsqlStore implements Store {
 
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO dreamjob.public.candidate(name) " +
-                     "VALUES (?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO dreamjob.public.candidate(name, city_id) " +
+                     "VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getCityId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -206,7 +208,8 @@ public class PsqlStore implements Store {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     var name = rs.getString("name");
-                    candidate = new Candidate(id, name);
+                    var city = rs.getInt("city_id");
+                    candidate = new Candidate(id, name, city);
                 }
             }
         } catch (Exception e) {
