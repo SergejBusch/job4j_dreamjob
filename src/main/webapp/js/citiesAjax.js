@@ -1,7 +1,7 @@
 const select = document.querySelector('select');
 
 async function loadCities() {
-    const response = await fetch('http://localhost:8080/job4j_dreamjob/city');
+    const response = await fetch('http://localhost:8081/job4j_dreamjob/city');
     const data =  await response.json();
     addToSelect(data);
 }
